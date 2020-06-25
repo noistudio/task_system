@@ -24,7 +24,7 @@
             <div class="form-group">
                 <table>
                     <tr v-for="(user,index) in users" :key="user.id">
-                        <td><input type="checkbox" :value="user.id" v-model="task.users[user.id]">
+                        <td><input type="checkbox" :value="user.id" :true-value="user.id" v-model="task.users[index]">
                         </td>
                         <td>{{ user.id }} {{ user.surname }} {{ user.name }} {{ user.fathername }}</td>
 

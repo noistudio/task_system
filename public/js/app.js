@@ -39213,42 +39213,38 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.task.users[user.id],
-                        expression: "task.users[user.id]"
+                        value: _vm.task.users[index],
+                        expression: "task.users[index]"
                       }
                     ],
-                    attrs: { type: "checkbox" },
+                    attrs: { type: "checkbox", "true-value": user.id },
                     domProps: {
                       value: user.id,
-                      checked: Array.isArray(_vm.task.users[user.id])
-                        ? _vm._i(_vm.task.users[user.id], user.id) > -1
-                        : _vm.task.users[user.id]
+                      checked: Array.isArray(_vm.task.users[index])
+                        ? _vm._i(_vm.task.users[index], user.id) > -1
+                        : _vm._q(_vm.task.users[index], user.id)
                     },
                     on: {
                       change: function($event) {
-                        var $$a = _vm.task.users[user.id],
+                        var $$a = _vm.task.users[index],
                           $$el = $event.target,
-                          $$c = $$el.checked ? true : false
+                          $$c = $$el.checked ? user.id : false
                         if (Array.isArray($$a)) {
                           var $$v = user.id,
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              _vm.$set(
-                                _vm.task.users,
-                                user.id,
-                                $$a.concat([$$v])
-                              )
+                              _vm.$set(_vm.task.users, index, $$a.concat([$$v]))
                           } else {
                             $$i > -1 &&
                               _vm.$set(
                                 _vm.task.users,
-                                user.id,
+                                index,
                                 $$a.slice(0, $$i).concat($$a.slice($$i + 1))
                               )
                           }
                         } else {
-                          _vm.$set(_vm.task.users, user.id, $$c)
+                          _vm.$set(_vm.task.users, index, $$c)
                         }
                       }
                     }

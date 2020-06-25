@@ -113,7 +113,7 @@ class Tasks extends Controller
 
         if (isset($all['users']) and is_array($all['users']) and count($all['users']) > 0) {
             foreach ($all['users'] as $id_user) {
-                if (!is_bool($id_user)) {
+                if (!(is_bool($id_user) or is_null($id_user))) {
                     $task_user = new TaskUser();
                     $task_user->task_id = $task->id;
                     $task_user->user_id = $id_user;
