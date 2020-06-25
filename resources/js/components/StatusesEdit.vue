@@ -3,11 +3,11 @@
         <form @submit.prevent="onSubmit($event)">
             <div class="form-group">
                 <label for="user_name">Название статуса</label>
-                <input id="user_name" v-model="status.title"/>
+                <input class="form-control" id="user_name" v-model="status.title"/>
             </div>
 
             <div class="form-group">
-                <button type="submit">Изменить</button>
+                <button class="form-control" type="submit">Изменить</button>
             </div>
         </form>
     </div>

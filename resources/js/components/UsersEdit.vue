@@ -3,27 +3,27 @@
         <form @submit.prevent="onSubmit($event)">
             <div class="form-group">
                 <label for="user_email">Email</label>
-                <input type="email" id="user_email" required v-model="user.email"/>
+                <input class="form-control" type="email" id="user_email" required v-model="user.email"/>
             </div>
 
             <div class="form-group">
                 <label for="user_name">Имя</label>
-                <input id="user_name" required v-model="user.name"/>
+                <input class="form-control" id="user_name" required v-model="user.name"/>
             </div>
             <div class="form-group">
                 <label for="user_surname">Фамилия</label>
-                <input id="user_surname" required v-model="user.surname"/>
+                <input class="form-control" id="user_surname" required v-model="user.surname"/>
             </div>
             <div class="form-group">
                 <label for="user_fathername">Отчество</label>
-                <input id="user_fathername" required v-model="user.fathername"/>
+                <input class="form-control" id="user_fathername" required v-model="user.fathername"/>
             </div>
             <div class="form-group">
                 <label for="user_image">Фото</label>
                 <img v-if="user.image!=undefined" :src="user.image" class="userimage img img-thumbnail"
                      style="width:20%">
 
-                <input type="file" id="file" ref="file" v-on:change="processFile($event)"/>
+                <input class="form-control" type="file" id="file" ref="file" v-on:change="processFile($event)"/>
             </div>
 
             <div class="form-group">
@@ -39,7 +39,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit">Изменить</button>
+                <button class="form-control" type="submit">Изменить</button>
             </div>
         </form>
     </div>

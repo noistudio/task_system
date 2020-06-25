@@ -45,9 +45,10 @@
         <table class="table table-bordered">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>ФИО</th>
                 <th>Фото</th>
-                <th>Задачи</th>
+
                 <th>Actions</th>
             </tr>
             </thead>
@@ -60,13 +61,7 @@
                     <img v-if="user.image==undefined" :src="getImgUrl()"
                          class="img img-thumbnail">
                     <img v-if="user.image!=undefined" :src="user.image" class="img img-thumbnail"></td>
-                <td>
-                    <div v-if="user.tasks.length>0">
-                        <p v-for="task in user.tasks" :key="task.id">
-                            {{ task.task.name }} {{ task.task.status.title }}
-                        </p>
-                    </div>
-                </td>
+
 
                 <td>
                     <div class="btn-group" role="group">

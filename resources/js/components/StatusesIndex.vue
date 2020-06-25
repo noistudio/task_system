@@ -8,7 +8,8 @@
         <form @submit.prevent="onSearch($event)" class="row">
             <div class="form-group col-md-5">
                 <label for="exampleInputEmail1">Статус</label>
-                <input type="text" v-model="filter.title" class="form-control" id="exampleInputEmail1"
+                <input type="text" v-model="filter.title" class="form-control"
+                       id="exampleInputEmail1"
                        aria-describedby="emailHelp">
 
             </div>

@@ -2207,6 +2207,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "StatusIndex",
   data: function data() {
@@ -2631,12 +2632,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UsersAdd",
   mounted: function mounted() {
     var app = this;
     var id = app.$route.params.id;
     app.user = {};
+    app.user.tasks = [];
+    axios.get('/api/tasks').then(function (resp) {
+      app.tasks = resp.data;
+    })["catch"](function () {
+      alert("Не удалось загрузить задания");
+    });
   },
   data: function data() {
     return {
@@ -2646,8 +2665,11 @@ __webpack_require__.r(__webpack_exports__);
         name: "",
         surname: "",
         fathername: "",
-        image: ""
-      }
+        image: "",
+        tasks: []
+      },
+      tasks: {},
+      tasksId: undefined
     };
   },
   methods: {
@@ -2817,11 +2839,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -38778,6 +38795,7 @@ var render = function() {
                 expression: "status.title"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_name" },
             domProps: { value: _vm.status.title },
             on: {
@@ -38802,7 +38820,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("button", { attrs: { type: "submit" } }, [_vm._v("Изменить")])
+      _c("button", { staticClass: "form-control", attrs: { type: "submit" } }, [
+        _vm._v("Изменить")
+      ])
     ])
   }
 ]
@@ -38853,6 +38873,7 @@ var render = function() {
                 expression: "status.title"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_name" },
             domProps: { value: _vm.status.title },
             on: {
@@ -38877,7 +38898,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("button", { attrs: { type: "submit" } }, [_vm._v("Изменить")])
+      _c("button", { staticClass: "form-control", attrs: { type: "submit" } }, [
+        _vm._v("Изменить")
+      ])
     ])
   }
 ]
@@ -39795,6 +39818,7 @@ var render = function() {
                 expression: "user.email"
               }
             ],
+            staticClass: "form-control",
             attrs: { type: "email", id: "user_email", required: "" },
             domProps: { value: _vm.user.email },
             on: {
@@ -39820,6 +39844,7 @@ var render = function() {
                 expression: "user.name"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_name", required: "" },
             domProps: { value: _vm.user.name },
             on: {
@@ -39845,6 +39870,7 @@ var render = function() {
                 expression: "user.surname"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_surname", required: "" },
             domProps: { value: _vm.user.surname },
             on: {
@@ -39872,6 +39898,7 @@ var render = function() {
                 expression: "user.fathername"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_fathername", required: "" },
             domProps: { value: _vm.user.fathername },
             on: {
@@ -39890,6 +39917,7 @@ var render = function() {
           _vm._v(" "),
           _c("input", {
             ref: "file",
+            staticClass: "form-control",
             attrs: { type: "file", id: "file" },
             on: {
               change: function($event) {
@@ -39897,6 +39925,66 @@ var render = function() {
               }
             }
           })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "table",
+            _vm._l(_vm.tasks, function(task, index) {
+              return _c("tr", { key: task.id }, [
+                _c("td", [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.user.tasks[index],
+                        expression: "user.tasks[index]"
+                      }
+                    ],
+                    attrs: {
+                      type: "checkbox",
+                      "true-value": task.id,
+                      id: task.id
+                    },
+                    domProps: {
+                      value: task.id,
+                      checked: Array.isArray(_vm.user.tasks[index])
+                        ? _vm._i(_vm.user.tasks[index], task.id) > -1
+                        : _vm._q(_vm.user.tasks[index], task.id)
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.user.tasks[index],
+                          $$el = $event.target,
+                          $$c = $$el.checked ? task.id : false
+                        if (Array.isArray($$a)) {
+                          var $$v = task.id,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(_vm.user.tasks, index, $$a.concat([$$v]))
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.user.tasks,
+                                index,
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.user.tasks, index, $$c)
+                        }
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(task.name))])
+              ])
+            }),
+            0
+          )
         ]),
         _vm._v(" "),
         _vm._m(0)
@@ -39910,7 +39998,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("button", { attrs: { type: "submit" } }, [_vm._v("Сохранить")])
+      _c("button", { staticClass: "form-control", attrs: { type: "submit" } }, [
+        _vm._v("Сохранить")
+      ])
     ])
   }
 ]
@@ -39959,6 +40049,7 @@ var render = function() {
                 expression: "user.email"
               }
             ],
+            staticClass: "form-control",
             attrs: { type: "email", id: "user_email", required: "" },
             domProps: { value: _vm.user.email },
             on: {
@@ -39984,6 +40075,7 @@ var render = function() {
                 expression: "user.name"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_name", required: "" },
             domProps: { value: _vm.user.name },
             on: {
@@ -40009,6 +40101,7 @@ var render = function() {
                 expression: "user.surname"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_surname", required: "" },
             domProps: { value: _vm.user.surname },
             on: {
@@ -40036,6 +40129,7 @@ var render = function() {
                 expression: "user.fathername"
               }
             ],
+            staticClass: "form-control",
             attrs: { id: "user_fathername", required: "" },
             domProps: { value: _vm.user.fathername },
             on: {
@@ -40062,6 +40156,7 @@ var render = function() {
           _vm._v(" "),
           _c("input", {
             ref: "file",
+            staticClass: "form-control",
             attrs: { type: "file", id: "file" },
             on: {
               change: function($event) {
@@ -40138,7 +40233,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
-      _c("button", { attrs: { type: "submit" } }, [_vm._v("Изменить")])
+      _c("button", { staticClass: "form-control", attrs: { type: "submit" } }, [
+        _vm._v("Изменить")
+      ])
     ])
   }
 ]
@@ -40361,26 +40458,6 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", [
-                user.tasks.length > 0
-                  ? _c(
-                      "div",
-                      _vm._l(user.tasks, function(task) {
-                        return _c("p", { key: task.id }, [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(task.task.name) +
-                              " " +
-                              _vm._s(task.task.status.title) +
-                              "\n                    "
-                          )
-                        ])
-                      }),
-                      0
-                    )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("td", [
                 _c(
                   "div",
                   { staticClass: "btn-group", attrs: { role: "group" } },
@@ -40444,11 +40521,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
         _c("th", [_vm._v("ФИО")]),
         _vm._v(" "),
         _c("th", [_vm._v("Фото")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Задачи")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")])
       ])

@@ -3,30 +3,42 @@
         <form @submit.prevent="onSubmit($event)">
             <div class="form-group">
                 <label for="user_email">Email</label>
-                <input type="email" id="user_email" required v-model="user.email"/>
+                <input class="form-control" type="email" id="user_email" required v-model="user.email"/>
             </div>
 
             <div class="form-group">
                 <label for="user_name">Имя</label>
-                <input id="user_name" required v-model="user.name"/>
+                <input class="form-control" id="user_name" required v-model="user.name"/>
             </div>
             <div class="form-group">
                 <label for="user_surname">Фамилия</label>
-                <input id="user_surname" required v-model="user.surname"/>
+                <input class="form-control" id="user_surname" required v-model="user.surname"/>
             </div>
             <div class="form-group">
                 <label for="user_fathername">Отчество</label>
-                <input id="user_fathername" required v-model="user.fathername"/>
+                <input class="form-control" id="user_fathername" required v-model="user.fathername"/>
             </div>
             <div class="form-group">
                 <label for="user_image">Фото</label>
 
 
-                <input type="file" id="file" ref="file" v-on:change="processFile($event)"/>
+                <input class="form-control" type="file" id="file" ref="file" v-on:change="processFile($event)"/>
             </div>
-
             <div class="form-group">
-                <button type="submit">Сохранить</button>
+                <table>
+                    <tr v-for="(task,index) in tasks" :key="task.id">
+                        <td><input type="checkbox" :value="task.id" :true-value="task.id"
+                                   :id="task.id" v-model="user.tasks[index]">
+                        </td>
+                        <td>{{ task.name }}</td>
+
+
+                    </tr>
+
+                </table>
+            </div>
+            <div class="form-group">
+                <button class="form-control" type="submit">Сохранить</button>
             </div>
         </form>
     </div>
@@ -38,6 +50,15 @@
             let app = this;
             let id = app.$route.params.id;
             app.user = {};
+            app.user.tasks = [];
+            axios.get('/api/tasks')
+                .then(function (resp) {
+                    app.tasks = resp.data;
+
+                })
+                .catch(function () {
+                    alert("Не удалось загрузить задания")
+                });
         },
         data() {
             return {
@@ -48,8 +69,11 @@
                     surname: "",
                     fathername: "",
                     image: "",
+                    tasks: []
 
-                }
+                },
+                tasks: {},
+                tasksId: undefined,
             };
         },
         methods: {
@@ -57,6 +81,8 @@
                 event.preventDefault();
                 var app = this;
                 var newUser = app.user;
+
+
                 axios.post('/api/users/', newUser)
                     .then(function (resp) {
                         //alert('Успешно!');

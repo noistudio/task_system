@@ -117,9 +117,37 @@ class Users extends Controller
         if (!isset($all['password'])) {
             $all['password'] = bcrypt("123456");
         }
+        $request = request();
+        $user = new User;
 
-        $user = User::create($all);
+
+        $user->name = $all['name'];
+        $user->surname = $all['surname'];
+        $user->fathername = $all['fathername'];
+        $user->email = $all['email'];
+        if (isset($all['image'])) {
+            $user->image = $all['image'];
+        }
+        $user->password = $all['password'];
+
+        $user->save();
+
+        if (isset($all['tasks']) and is_array($all['tasks']) and count($all['tasks']) > 0) {
+            foreach ($all['tasks'] as $id_task) {
+                if (!(is_bool($id_task) or is_null($id_task))) {
+                    $task_user = new TaskUser();
+                    $task_user->task_id = $id_task;
+                    $task_user->user_id = $user->id;
+                    $task_user->save();
+                }
+
+            }
+        }
+
+
         return $user;
+
+
     }
 
     public function destroy($id)
