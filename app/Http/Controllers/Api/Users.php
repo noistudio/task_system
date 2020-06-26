@@ -38,7 +38,7 @@ class Users extends Controller
 
             }
 
-        })->get();
+        })->where("isadmin", false)->get();
 
         return response($users);
     }
@@ -115,8 +115,10 @@ class Users extends Controller
         $request = request();
         $all = $request->all();
         if (!isset($all['password'])) {
-            $all['password'] = bcrypt("123456");
+            $all['password'] = "123456";
+
         }
+        $all['password'] = bcrypt($all['password']);
         $request = request();
         $user = new User;
 

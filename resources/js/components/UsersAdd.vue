@@ -5,7 +5,10 @@
                 <label for="user_email">Email</label>
                 <input class="form-control" type="email" id="user_email" required v-model="user.email"/>
             </div>
-
+            <div class="form-group">
+                <label for="user_password">Пароль</label>
+                <input class="form-control" id="user_password" required v-model="user.password"/>
+            </div>
             <div class="form-group">
                 <label for="user_name">Имя</label>
                 <input class="form-control" id="user_name" required v-model="user.name"/>

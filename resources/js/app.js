@@ -12,7 +12,7 @@ import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import {routes} from './routes';
-
+import Vuex from 'vuex'
 
 /**
  * The following block of code may be used to automatically register your
@@ -46,9 +46,77 @@ const router = new VueRouter({
     routes: routes
 });
 
+const store = new Vuex.Store({
+    state: {
+        api_token: localStorage.getItem('api_token') || undefined,
+        isadmin: false,
+        isauth: false,
+
+    },
+    getters: {
+        TOKEN: state => {
+            return state.api_token;
+        },
+        ISADMIN: state => {
+            return state.isadmin;
+        },
+        ISAUTH: state => {
+            return state.isauth;
+        }
+    },
+
+    mutations: {
+
+        SET_TOKEN: (state, payload) => {
+
+            state.api_token = payload;
+        },
+        SET_ISADMIN: (state, payload) => {
+            state.isadmin = payload;
+        },
+        SET_ISAUTH: (state, payload) => {
+            state.isauth = payload;
+        }
+    }
+})
+
+
+Vue.mixin({
+    methods: {
+        loadUserInfo: function (token) {
+
+            var app = this;
+            console.log("token is " + token);
+            axios.defaults.headers.common['Authorization'] = `Bearer ` + token;
+            axios.get('/api/user')
+                .then(function (resp) {
+                    app.$store.commit('SET_ISAUTH', true);
+
+                    if (resp.data.isadmin == 1) {
+
+                        app.$store.commit('SET_ISADMIN', true);
+                    } else {
+                        app.$store.commit('SET_ISADMIN', false);
+                    }
+                    app.$root.$emit('update_user_info', app.$store.getters.ISAUTH, app.$store.getters.ISADMIN);
+
+                })
+                .catch(function () {
+                    if (app.$router.currentRoute.name != "auth.login") {
+                        app.$router.replace('/login');
+                    }
+                });
+        }
+    }
+});
+
+
+
 const app = new Vue({
     el: '#app',
     router: router,
+    store: store,
+
     render: h => h(App),
 });
 // const app = new Vue({

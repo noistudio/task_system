@@ -54,7 +54,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2020_06_25_145201_create_statuses',2),(6,'2020_06_25_161946_add_fio_image_to_users',3),(7,'2020_06_25_173519_create_task_table',4);
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2019_08_19_000000_create_failed_jobs_table',1),(4,'2020_06_25_145201_create_statuses',2),(6,'2020_06_25_161946_add_fio_image_to_users',3),(7,'2020_06_25_173519_create_task_table',4),(9,'2020_06_26_090957_add_isadmin_tousers',5);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +132,7 @@ CREATE TABLE `tasks` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,'Тестовая3','Супер мега задача123123',3,'2020-06-25 14:27:21','2020-06-25 15:37:57'),(3,'Тест.Задача2','фывфыв',3,'2020-06-25 15:27:03','2020-06-25 15:27:03');
+INSERT INTO `tasks` VALUES (1,'Тестовая3','Супер мега задача123123',3,'2020-06-25 14:27:21','2020-06-25 15:37:57'),(3,'Тест.Задача2','фывфыв',3,'2020-06-25 15:27:03','2020-06-25 15:27:03'),(4,'Супер задач','фывфыв',3,'2020-06-25 16:33:13','2020-06-25 16:33:13'),(6,'ASDasd','asdasd',3,'2020-06-25 16:48:14','2020-06-25 16:48:14');
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,7 +159,7 @@ CREATE TABLE `tasks_users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,7 +168,7 @@ CREATE TABLE `tasks_users` (
 
 LOCK TABLES `tasks_users` WRITE;
 /*!40000 ALTER TABLE `tasks_users` DISABLE KEYS */;
-INSERT INTO `tasks_users` VALUES (91,1,1,'2020-06-25 15:37:57','2020-06-25 15:37:57'),(92,1,8,'2020-06-25 15:37:57','2020-06-25 15:37:57');
+INSERT INTO `tasks_users` VALUES (92,1,8,'2020-06-25 15:37:57','2020-06-25 15:37:57'),(95,4,10,'2020-06-25 16:40:47','2020-06-25 16:40:47'),(96,6,1,'2020-06-25 16:48:14','2020-06-25 16:48:14'),(97,6,10,'2020-06-25 16:48:14','2020-06-25 16:48:14'),(98,6,12,'2020-06-26 07:12:54','2020-06-26 07:12:54');
 /*!40000 ALTER TABLE `tasks_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,15 +185,18 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `api_token` varchar(80) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `surname` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fathername` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `isadmin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `users_email_unique` (`email`),
+  UNIQUE KEY `users_api_token_unique` (`api_token`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,7 +205,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Артем','artem@noibiz.com',NULL,'$2y$10$2rzjqkRQnqgzTOxjSk8VWOZxX3qbNoNOFoCuMwWWUjdokwYiaXIO.',NULL,'2020-06-25 12:50:59','2020-06-25 12:50:59','Иванов','Иванович',NULL),(3,'Артем','artem2@noibiz.com',NULL,'$2y$10$Og6nRNcKhb3Dgv5xQWezN.G06zFuCxl4B14Ck3U2np34UhRK3Rwwq',NULL,'2020-06-25 13:03:48','2020-06-25 13:03:48','Иван','Фывфыв',NULL),(8,'Денис22dsf','artem99@noibiz.com',NULL,'$2y$10$VIqEZl1G3VveNvcvsiEaiekx.c6de7BviempNDCwB6inUIXpCwAWG',NULL,'2020-06-25 13:14:13','2020-06-25 13:34:29','Денисов22sdf','Денисович22sdf','/uploads/1593106465.png');
+INSERT INTO `users` VALUES (1,'Артем22','artem@noibiz.com',NULL,'$2y$10$2rzjqkRQnqgzTOxjSk8VWOZxX3qbNoNOFoCuMwWWUjdokwYiaXIO.',NULL,NULL,'2020-06-25 12:50:59','2020-06-25 15:43:50','Иванов','Иванович',NULL,0),(3,'Артем','artem2@noibiz.com',NULL,'$2y$10$Og6nRNcKhb3Dgv5xQWezN.G06zFuCxl4B14Ck3U2np34UhRK3Rwwq',NULL,NULL,'2020-06-25 13:03:48','2020-06-25 13:03:48','Иван','Фывфыв',NULL,0),(8,'Денис22dsf','artem99@noibiz.com',NULL,'$2y$10$VIqEZl1G3VveNvcvsiEaiekx.c6de7BviempNDCwB6inUIXpCwAWG',NULL,NULL,'2020-06-25 13:14:13','2020-06-25 13:34:29','Денисов22sdf','Денисович22sdf','/uploads/1593106465.png',0),(10,'asdasd','asdasd@asdasda.com',NULL,'$2y$10$nWuC9vmprmNlk/h7HKskTenFgcbLTpEA/I6phbByb/JOzkg38YKf2',NULL,NULL,'2020-06-25 16:40:47','2020-06-25 16:40:47','324234','HHH',NULL,0),(11,'Root','root@noi.studio',NULL,'$2y$10$Etdx1Gal15PkXME.iCJRzuvFz50eD789mMwoHDwZf2aZSjlrQ7MPG','89dzNERcLPvKNXogKVsKGkYTmfmT0B4irKVyrsbquUifuokioHEOmYV3njw2',NULL,'2020-06-26 10:00:43','2020-06-26 07:34:06','Rootский','YT','',1),(12,'Робот','robot@noi.studio',NULL,'$2y$10$cxX0AY0ZNuCduUjF/YxCo.9CiIjalDmuHgg.kigtmnmyHS37oA.y.','84CTEEyOlswqYXxBvNGYyEwoHUynAeZBI3PESmE7wa7Bg8pjSnhZuQyHTO6r',NULL,'2020-06-26 07:12:46','2020-06-26 07:19:33','Роботсков','Роботнович',NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -215,4 +218,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-25 23:42:14
+-- Dump completed on 2020-06-26 15:34:45

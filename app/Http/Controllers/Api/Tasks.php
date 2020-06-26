@@ -18,8 +18,9 @@ class Tasks extends Controller
         $get_name = request()->get("name");
         $get_status_id = request()->get("status_id");
         $get_description = request()->get("description");
+        $user = request()->user();
 
-        $tasks = Task::with('users.user', 'status')->where(function ($query) use ($get_name, $get_status_id, $get_description) {
+        $tasks = Task::with('users.user', 'status')->where(function ($query) use ($get_name, $get_status_id, $get_description, $user) {
             if (isset($get_name) and strlen($get_name) > 0) {
                 $query->where("name", "like", "%" . $get_name . "%");
             }
@@ -29,6 +30,12 @@ class Tasks extends Controller
             if (isset($get_status_id) and is_numeric($get_status_id) > 0) {
                 $query->where("status_id", $get_status_id);
             }
+            if ($user->isadmin == false) {
+                $query->whereHas("users", function ($subquery) use ($user) {
+                    $subquery->where("user_id", $user->id);
+                });
+            }
+
 
         })->get();
 
